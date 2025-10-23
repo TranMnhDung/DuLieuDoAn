@@ -1,1 +1,0 @@
-@extends(view: '../master.admin-layout')
