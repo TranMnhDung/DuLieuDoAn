@@ -62,6 +62,21 @@ Route::middleware(['admin'])->prefix('a')->name('a.')->group(function () {
     
 });
 
+Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login.post');
 
+// --- NHÓM ROUTE ADMIN ĐƯỢC BẢO VỆ ---
+Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(function () {
+    
+    //(URL: /admin/a)
+    Route::get('/a', function (): View {
+        return view('admin.dashboard');
+    })->name('dashboard'); // Giữ tên route là 'dashboard' để Controller dễ sử dụng
+
+    // Route Logout
+    // Route::post('logout', [AdminLoginController::class, 'logout'])->name('logout'); 
+    
+    // ... các route khác
+});
 // XÓA ROUTE XUNG ĐỘT (Đã bị route bảo vệ bên trên thay thế)
 // Route::get('/a', function (): View { return view('admin.dashboard'); });
